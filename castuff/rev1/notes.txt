@@ -1,0 +1,114 @@
+This folder is going to be first implementation of potential solution to the first problem:
+	Cellular Automata will choose where to go by applying forces in a similar manner as the paper that uses forces.
+	However, since coverage of sensor radius is important there will be an additional forces relating to sensor radius and it will be more powerful.
+
+Plan:
+	Create the outline of the whole cellular automaton algorithm
+	Create an outline of each class and what each class needs.
+
+outline:
+
+main():
+	initSensors()
+	runCA()
+
+runCA():
+	global grid
+	
+	step 0: check if sensor can move
+	moveableSensors = []
+	for sensor in sensors:
+		if sensor.moveCount < sensor.moveMax:
+			moveableSensors.append(sensor)
+
+	step 1 : do calculations to determine movement locations.
+	for sensor in moveableSensor:
+		setDesiredMoveLocation(sensor)
+
+	step2 : try to move to those locations
+	for sensor in moveableSensors:
+		setMoveLocation(sensor)
+
+	step3 : move the sensors
+	width, height = grid["width"], grid["height"]
+	grid = {"width":width, "height":height}
+	for sensor in sensors:
+		move(sensor)
+
+setDesiredMoveLocation(sensor):
+	findNeighbours(sensor)
+	#Then calculate forces and stuff.
+	# Refer to the paper, start with just the paper then add the radius sensor force. (Might not actually be necessary)
+
+	findNeighbours(sensor):
+		global grid
+		neighbours = []
+		for i in range(-rc, rc + 1):
+			for j in range(-rc, rc + 1):
+				neighbour = grid.get((i + sensor.x, j + sensor.y), [])
+				neighbours.extend(neighbour)
+		self.neighbours = neighbours
+
+
+setMoveLocation(sensor):
+	global grid
+
+	if not inBounds(sensor):
+		sensor.moveLocation = sensor.currentLocation
+		sensor.conflictResolved = True
+		return
+	if not sensor.conflictResolved:
+		findConflictNeighbours(sensor)
+		cns = self.cns
+		cns.append(sensor)
+		for cn in cns:
+			cn.conflict = random(0, 1)
+		sort(cns, by conflict higher at the front)
+		capacity = len(grid.get(sensor.desiredMoveLocation, []))
+		i = 0
+		while i < capacity:
+			cn[i].moveLocation = cn[i].desiredMoveLocation
+			cn[i].conflictResolved = True
+			i+=1
+		while i < len(cns)
+			cn[i].moveLocation = cn[i].currentLocation
+			cn[i].conflictResolved = True
+			i+=1
+
+	inBounds(location):
+		global grid
+		width, height = grid["width"], grid["height"]
+		if width == 0 && height == 0:
+			return True
+		x, y = location
+		return 0<= x <= width and 0 <= y <= height
+	
+	findConflictNeighbours(sensor):
+		cns = []
+		for neighbour in sensor.neighbours:
+			if neighbour.desiredMoveLocation == sensor.desiredMoveLocation:
+				cns.append(neighbour)
+		self.cns = cns
+
+move(sensor):
+	global grid
+	location = grid.get(sensor.moveLocation, [])
+	location.append(sensor)
+	grid[sensor.moveLocation] = location
+	sensor.moveCount += 1
+
+class Sensor:
+
+	self.rc
+	self.rs
+	self.moveCount
+	self.moveMax
+	self.desiredMoveLocation
+	self.neighbours
+	# other variables for setting desiredMoveLocation
+
+	self.moveLocation
+	self.conflictResolved
+	self.cns
+	self.conflict
+

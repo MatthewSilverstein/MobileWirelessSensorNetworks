@@ -1,0 +1,1 @@
+This folder was designed to implement the original algorithm for first problem scenario 1. It also has plotting. (Note a few mistakes with algorithm is does not produce same results as original.
